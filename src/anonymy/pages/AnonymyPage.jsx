@@ -1,7 +1,10 @@
 import React from 'react'
+import { AnonymyLayout } from '../layout/AnonymyLayout'
 
 export const AnonymyPage = () => {
   return (
-    <div>AnonymyPage</div>
+    <AnonymyLayout>
+      Anonymy hecho por Karolyn y Joel
+    </AnonymyLayout>
   )
 }
