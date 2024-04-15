@@ -1,10 +1,13 @@
-import { HomeRounded, Login, TurnedInNot } from '@mui/icons-material'
+import { HomeRounded, Login, MusicNoteOutlined, NewspaperOutlined, TurnedInNot } from '@mui/icons-material'
 import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { mainTheme } from '../../theme/mainTheme'
+import { ThemeProvider } from '@emotion/react'
 
 export const SideBar = ({ drawerWidth }) => {
   return (
+    <ThemeProvider theme={mainTheme}>
     <Box
         component='nav'
         sx={{ width: { xs: 0, sm: drawerWidth }, flexShrink: { sm: 0 } }} // Modificamos aquí para ocultar en 'xs'
@@ -37,6 +40,30 @@ export const SideBar = ({ drawerWidth }) => {
                     </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding
+                    component={Link} to="/news">
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <NewspaperOutlined />
+                        </ListItemIcon>
+                        <Grid container className='mr-1'>
+                            <ListItemText primary='Noticias'/>
+                        </Grid>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding
+                    component={Link} to="/music">
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <MusicNoteOutlined />
+                        </ListItemIcon>
+                        <Grid container className='mr-1'>
+                            <ListItemText primary='Música'/>
+                        </Grid>
+                    </ListItemButton>
+                </ListItem>
+
+
+                <ListItem disablePadding
                     component={Link} to="/auth/login">
                     <ListItemButton>
                         <ListItemIcon>
@@ -47,11 +74,9 @@ export const SideBar = ({ drawerWidth }) => {
                         </Grid>
                     </ListItemButton>
                 </ListItem>
-                
             </List>
-
         </Drawer>
-
     </Box>
+    </ThemeProvider>
   )
 }
