@@ -14,7 +14,7 @@ export const LoginPage = () => {
                   type='email' 
                   placeholder='Correo@google.com'
                   fullWidth
-                  sx={{ border: '1px solid #2f35e5', borderRadius: '5px' }} // Cambia el borde aquí
+                  sx={{ border: '1px solid', borderRadius: '5px' }} // Cambia el borde aquí
                   />
               </Grid>
 
@@ -23,14 +23,14 @@ export const LoginPage = () => {
                   type='password' 
                   placeholder='Contraseña'
                   fullWidth
-                  sx={{ border: '1px solid #2f35e5', borderRadius: '5px' }} // Cambia el borde aquí
+                  sx={{ border: '1px solid', borderRadius: '5px' }} // Cambia el borde aquí
                   />
               </Grid>
 
               <Grid container spacing={ 2 } sx={{mb: 2, mt: 1}}>
                 <Grid item xs={ 12 } sm={ 6 }>
                   <Button variant='contained' fullWidth>
-                    Login
+                    Ingresar
                   </Button>
                 </Grid>
                 <Grid item xs={ 12 } sm={ 6 }>
@@ -46,6 +46,30 @@ export const LoginPage = () => {
                 <Link color='inherit' to='/auth/register'>
                   Crear una cuenta
                 </Link>
+              </Grid>
+
+            </Grid>
+          </form>
+
+          <form className='mt-10'>
+            <Typography variant='h5'sx={{mb: 1}}>Inicia Sesión como ANÓNIMO</Typography>
+            <Grid container>
+              <Grid item xs={ 12 } sx={{ mt: 2}}>
+                <TextField 
+                  type='name' 
+                  placeholder='Nombre de Usuario'
+                  fullWidth
+                  sx={{ border: '1px solid ', borderRadius: '5px' }} // Cambia el borde aquí
+                  />
+              </Grid>
+
+              <Grid container spacing={ 2 } sx={{mb: 2, mt: 1}}>
+                <Grid item xs={ 12 } sm={ 12 }>
+                  <Button variant='contained' fullWidth>
+                    Ingresar
+                  </Button>
+                </Grid>
+
               </Grid>
 
             </Grid>

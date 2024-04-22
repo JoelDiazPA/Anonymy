@@ -12,7 +12,7 @@ export const AuthLayout = ( {children, title = ''} ) => {
       sx={{ minHeight: '100vh', backgroundColor: 'primary.main', padding: 4}}
     >
         <Grid>
-          <img src="../src/assets/Anonymy_large_logo.png" alt="Anonymy Logo" width="500" height="500" />
+          <img src="../src/assets/LogoAnonymy_Large.png" alt="Anonymy Logo" width="500" height="500" className='mb-2' />
         </Grid>
 
         <Grid 
@@ -21,7 +21,7 @@ export const AuthLayout = ( {children, title = ''} ) => {
             xs={3}
             sx={{ 
                 width:{ sm: 450 },
-                backgroundColor: 'white', 
+                backgroundColor: '#9E9B98', 
                 padding: 3, 
                 borderRadius: 2,
                 boxShadow: '2px 4px 8px rgba(1, 1, 1, 1)'

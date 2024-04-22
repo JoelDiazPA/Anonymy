@@ -13,7 +13,7 @@ export const RegisterPage = () => {
               type='text'
               placeholder='Nombre Completo'
               fullWidth
-              sx={{ border: '1px solid #2f35e5', borderRadius: '5px' }} // Cambia el borde aquí
+              sx={{ border: '1px solid', borderRadius: '5px' }} // Cambia el borde aquí
             />
           </Grid>
 
@@ -22,7 +22,7 @@ export const RegisterPage = () => {
               type='email'
               placeholder='Correo@google.com'
               fullWidth
-              sx={{ border: '1px solid #2f35e5', borderRadius: '5px' }} // Cambia el borde aquí
+              sx={{ border: '1px solid', borderRadius: '5px' }} // Cambia el borde aquí
             />
           </Grid>
 
@@ -31,7 +31,7 @@ export const RegisterPage = () => {
               type='password'
               placeholder='Contraseña'
               fullWidth
-              sx={{ border: '1px solid #2f35e5', borderRadius: '5px' }} // Cambia el borde aquí
+              sx={{ border: '1px solid', borderRadius: '5px' }} // Cambia el borde aquí
             />
           </Grid>
 
