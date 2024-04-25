@@ -12,8 +12,8 @@ export const MusicPage = () => {
           size='large'
           sx={{
             color: 'white',
-            backgroundColor: 'secondary.main',
-            ':hover': { backgroundColor: 'secondary.main', opacity: 0.9 },
+            backgroundColor: 'success.main',
+            ':hover': { backgroundColor: 'success.main', opacity: 0.9 },
             position: 'fixed',
             right: 50,
             bottom: 50,
