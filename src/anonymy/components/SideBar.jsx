@@ -2,7 +2,7 @@ import { ThemeProvider } from "@emotion/react";
 import { mainTheme } from "../../theme/mainTheme";
 import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { ChatOutlined, DarkModeOutlined, HomeRounded, LightModeOutlined, Login, MusicNoteOutlined, NewspaperOutlined, TurnedInNot } from "@mui/icons-material";
+import { ChatOutlined, DarkModeOutlined, HomeRounded, LightModeOutlined, Login, MusicNoteOutlined, NewspaperOutlined, PublicOutlined, TurnedInNot } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { NavBar } from './NavBar'; // Importa el componente NavBar
 
@@ -70,7 +70,7 @@ export const SideBar = ({ drawerWidth }) => {
                                     <HomeRounded className="text-black dark:text-white"/>
                                 </ListItemIcon>
                                 <Grid container className='mr-1'>
-                                    <ListItemText primary='Home'/>
+                                    <ListItemText primary='Inicio'/>
                                 </Grid>
                             </ListItemButton>
                         </ListItem>
@@ -91,6 +91,16 @@ export const SideBar = ({ drawerWidth }) => {
                                 </ListItemIcon>
                                 <Grid container className='mr-1'>
                                     <ListItemText primary='Música'/>
+                                </Grid>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding component={Link} to="/general">
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <PublicOutlined className="text-black dark:text-white"/>
+                                </ListItemIcon>
+                                <Grid container className='mr-1'>
+                                    <ListItemText primary='General'/>
                                 </Grid>
                             </ListItemButton>
                         </ListItem>
@@ -129,9 +139,6 @@ export const SideBar = ({ drawerWidth }) => {
                                 )}
                             </button> 
                         </Typography>
-                        <div className="text-red-500 dark:text-blue-500">
-                            prueba
-                        </div>
                     </Box>
                 </Drawer>
             </Box>

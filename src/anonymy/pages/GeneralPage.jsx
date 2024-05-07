@@ -4,10 +4,10 @@ import { IconButton } from '@mui/material'
 import { AddRounded } from '@mui/icons-material'
 import { AnonymyModal } from '../components/AnonymyModal'
 
-export const MusicPage = () => {
+export const GeneralPage = () => {
     return (
       <AnonymyLayout>
-        MusicPage
+        GeneralPage
   
         <IconButton
           size='large'
@@ -23,7 +23,7 @@ export const MusicPage = () => {
           <AddRounded sx={{ fontSize: 30 }} />
         </IconButton>
 
-        <AnonymyModal tituloPage="MusicPage"/>
+        <AnonymyModal tituloPage="GeneralPage"/>
         
   
       </AnonymyLayout>

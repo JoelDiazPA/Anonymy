@@ -11,7 +11,7 @@ export const RegisterPage = () => {
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
               type='text'
-              placeholder='Nombre Completo'
+              placeholder='Nombre de Usuario'
               fullWidth
               sx={{ border: '1px solid', borderRadius: '5px' }} // Cambia el borde aquí
             />
