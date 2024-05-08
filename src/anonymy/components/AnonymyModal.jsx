@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { useUiStore } from '../../hooks/useUiStore';
 import { useAnonymyStore } from '../../hooks/useAnonymyStore';
 
+
 const customStyles = {
   content: {
     top: '50%',
@@ -30,16 +31,14 @@ export const AnonymyModal = ({ tituloPage }) => {
 
   const [formValues, setFormValues] = useState({
     text: '',
-    image: null // Cambiado de '' a null
+    imageUrl: null // Cambiado de image a imageUrl
   });
 
   useEffect(() => {
-    if ( activeEvent !== null) {
+    if (activeEvent !== null) {
       setFormValues({ ...activeEvent });
     }
-  
   }, [activeEvent])
-  
 
   const onInputChanged = ({ target }) => {
     if (target.type === 'file') {
@@ -48,7 +47,7 @@ export const AnonymyModal = ({ tituloPage }) => {
       setSelectedMedia(mediaURL);
       setFormValues({
         ...formValues,
-        image: file // Guardamos el objeto de archivo directamente
+        imageUrl: mediaURL // Guardamos la URL de la imagen
       });
     } else {
       setFormValues({
@@ -71,13 +70,16 @@ export const AnonymyModal = ({ tituloPage }) => {
 
     if (formValues.text.length <= 0) return;
 
-    console.log(formValues);
+    // Sube la imagen
+    let imageUrl = null;
+    if (formValues.image) {
+        imageUrl = await uploadImage(formValues.image); // Sube la imagen y obtén su URL
+    }
 
-    // TODO:
-    await startSavingEvent( formValues );
+    // Llama a startSavingEvent con la URL de la imagen en lugar del objeto File
+    await startSavingEvent({ ...formValues, image: imageUrl });
     closeAnonymyModal();
-
-  };
+};
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -85,7 +87,7 @@ export const AnonymyModal = ({ tituloPage }) => {
     setSelectedMedia(mediaURL);
     setFormValues({
       ...formValues,
-      image: file
+      imageUrl: mediaURL // Guardamos la URL de la imagen
     });
     console.log('Archivo seleccionado:', file);
   };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { AnonymyLayout } from '../layout/AnonymyLayout';
-import { IconButton, Typography, Avatar, Box, Card, CardContent } from '@mui/material';
+import { IconButton, Typography, Avatar, Box, Card, CardContent, CardMedia } from '@mui/material';
 import { AddRounded } from '@mui/icons-material';
 import { AnonymyModal } from '../components/AnonymyModal';
 import { useUiStore } from '../../hooks/useUiStore';
@@ -20,7 +20,10 @@ const Event = ({ text, user, image, onSelect }) => (
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{user.name}</Typography>
       </Box>
       <Typography variant="body1">{text}</Typography>
-      {image && <CardMedia component="img" src={image} alt="Event Image" sx={{ mt: 1 }} />} {/* Asegúrate de que image exista antes de mostrarla */}
+      {/* Verifica si la URL de la imagen está disponible */}
+      {image && (
+        <CardMedia component="img" src={typeof image === 'string' ? image : ''} alt="Event Image" sx={{ mt: 1 }} />
+      )}
     </CardContent>
   </Card>
 );
@@ -54,7 +57,7 @@ export const GeneralPage = () => {
       
       {/* Renderizando los eventos */}
       {events.map((event, index) => (
-        <Event key={index} text={event.text} user={event.user} onSelect={onSelect} />
+        <Event key={index} text={event.text} user={event.user} image={event.image} onSelect={() => onSelect(event)} />
       ))}
       
       <IconButton
