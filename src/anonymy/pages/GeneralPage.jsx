@@ -1,15 +1,47 @@
-import React from 'react'
-import { AnonymyLayout } from '../layout/AnonymyLayout'
-import { IconButton } from '@mui/material'
-import { AddRounded } from '@mui/icons-material'
-import { AnonymyModal } from '../components/AnonymyModal'
+import React from 'react';
+import { AnonymyLayout } from '../layout/AnonymyLayout';
+import { IconButton, Typography, Avatar, Box, Card, CardContent } from '@mui/material';
+import { AddRounded } from '@mui/icons-material';
+import { AnonymyModal } from '../components/AnonymyModal';
+import { useUiStore } from '../../hooks/useUiStore';
+import { useAnonymyStore } from '../../hooks/useAnonymyStore';
+
+const Event = ({ text, user }) => (
+  <Card variant="outlined" sx={{ marginBottom: 2 }}>
+    <CardContent>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          paddingBottom: 1,
+        }}
+      >
+        <Avatar sx={{ marginRight: 1 }}>{user.name.charAt(0)}</Avatar>
+        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{user.name}</Typography>
+      </Box>
+      <Typography variant="body1">{text}</Typography>
+    </CardContent>
+  </Card>
+);
+
 
 export const GeneralPage = () => {
+
+  const { openAnonymyModal } = useUiStore();
+
+  const { events } = useAnonymyStore();
+
     return (
       <AnonymyLayout>
         GeneralPage
+
+      {/* Renderizando los eventos */}
+      {events.map((event, index) => (
+        <Event key={index} text={event.text} user={event.user} />
+      ))}
   
         <IconButton
+          onClick={ openAnonymyModal }
           size='large'
           sx={{
             color: 'white',
@@ -25,7 +57,6 @@ export const GeneralPage = () => {
 
         <AnonymyModal tituloPage="GeneralPage"/>
         
-  
       </AnonymyLayout>
       
       

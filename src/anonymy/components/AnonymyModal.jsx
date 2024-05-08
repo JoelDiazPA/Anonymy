@@ -1,7 +1,7 @@
 import { GifBox, InsertPhoto } from '@mui/icons-material';
 import { useRef, useState } from 'react';
 import Modal from 'react-modal';
-
+import { useUiStore } from '../../hooks/useUiStore';
 
 const customStyles = {
   content: {
@@ -19,27 +19,26 @@ const customStyles = {
   },
 };
 
-
 Modal.setAppElement('#root');
 
+export const AnonymyModal = ({ tituloPage }) => {
 
-export const AnonymyModal = ( {tituloPage} ) => {
-
-  const [isOpen, setIsOpen] = useState(true)
+  const { isAnonymyModalOpen, closeAnonymyModal } = useUiStore();
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
   const [formValues, setFormValues] = useState({
     text: 'Joel',
-    image: ''
-  })
+    image: null // Cambiado de '' a null
+  });
 
-  const onInputChanged = ( {target} ) => {
+  const onInputChanged = ({ target }) => {
     if (target.type === 'file') {
       const file = target.files[0];
       const mediaURL = URL.createObjectURL(file);
       setSelectedMedia(mediaURL);
       setFormValues({
         ...formValues,
-        [target.name]: mediaURL
+        image: file // Guardamos el objeto de archivo directamente
       });
     } else {
       setFormValues({
@@ -47,91 +46,97 @@ export const AnonymyModal = ( {tituloPage} ) => {
         [target.name]: target.value
       });
     }
-  }
-
-
-  const [selectedMedia, setSelectedMedia] = useState(null); // Estado para almacenar la URL de la imagen o el video
-  const fileInputRef = useRef(null); // Referencia al input de archivos
-
-  const onCloseModal = () => {
-    console.log('Cerrando modal');
-    setIsOpen ( false );
-  }
-
-const handleFileChange = (event) => {
-  const file = event.target.files[0]; // Tomar solo el primer archivo seleccionado
-  const mediaURL = URL.createObjectURL(file); // Crear la URL del archivo
-  setSelectedMedia(mediaURL); // Almacenar la URL en el estado
-  console.log('Archivo seleccionado:', file);
-};
-
-  const openFileExplorer = (event) => {
-    event.preventDefault(); // Evitar que se envíe el formulario
-    fileInputRef.current.click(); // Abre el explorador de archivos al hacer clic en el botón
   };
 
+  const [selectedMedia, setSelectedMedia] = useState(null);
+  const fileInputRef = useRef(null);
 
-  // Contenido del modal dependiendo de la página
+  const onCloseModal = () => {
+    closeAnonymyModal();
+  };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setFormSubmitted(true)
+
+    if (formValues.text.length <= 0) return;
+
+    console.log(formValues);
+    // TODO:
+    // cerrar modal
+    // remover errores pantalla
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const mediaURL = URL.createObjectURL(file);
+    setSelectedMedia(mediaURL);
+    setFormValues({
+      ...formValues,
+      image: file
+    });
+    console.log('Archivo seleccionado:', file);
+  };
+
+  const openFileExplorer = (event) => {
+    event.preventDefault();
+    fileInputRef.current.click();
+  };
+
   let contenidoModal;
   if (tituloPage === 'GeneralPage') {
     contenidoModal = (
       <>
-        <h1> ¿¡Qué está pasando!? </h1>
-          <hr />
-          <form className="container mx-auto sm:px-4">
+        <h1>¿¡Qué está pasando!? </h1>
+        <hr />
+        <form className="container mx-auto sm:px-4" onSubmit={onSubmit}>
 
-              <div className="mb-4 mt-2">
-                  <textarea 
-                      type="text" 
-                      className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
-                      placeholder="¿Qué pasa hoy?"
-                      rows="5"
-                      name="text"
-                      value={ formValues.text }
-                      onChange={ onInputChanged }
-                  ></textarea>
-              <div className='text-center'>
-                {/* Este es el input que manejará la selección de imágenes y videos */}
-                <input
-                  type="file"
-                  accept="image/*" // Esto permite seleccionar imágenes y videos
-                  onChange={handleFileChange} // Maneja el cambio de archivo
-                  style={{ display: 'none' }} // Oculta el input, pero permite clickear en el botón
-                  ref={fileInputRef} // Referencia al input
-                  name='image'
-                  value={ formValues.image }
-                />
-                <button onClick={openFileExplorer}>
-                  <InsertPhoto />
-                </button>
-                {/* Muestra la imagen seleccionado */}
-                {selectedMedia && (
+          <div className="mb-4 mt-2">
+            <textarea
+              type="text"
+              className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+              placeholder="¿Qué pasa hoy?"
+              rows="5"
+              name="text"
+              value={formValues.text}
+              onChange={onInputChanged}
+            ></textarea>
+            <div className='text-center'>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                style={{ display: 'none' }}
+                ref={fileInputRef}
+                name='image'
+              />
+              <button onClick={openFileExplorer}>
+                <InsertPhoto />
+              </button>
+              {selectedMedia && (
                 <div className="mt-4">
-                    <img src={selectedMedia} alt="Multimedia seleccionado" 
-                      style={{
-                        display: 'block',
-                        maxWidth: '530px',
-                        maxHeight: '300px',
-                        width: '600px', // Esto ajusta automáticamente el ancho según la altura máxima
-                        height: '400px', // Esto ajusta automáticamente la altura según el ancho máximo
-                      }} />
+                  <img src={selectedMedia} alt="Multimedia seleccionado"
+                    style={{
+                      display: 'block',
+                      maxWidth: '530px',
+                      maxHeight: '300px',
+                      width: '600px',
+                      height: '400px',
+                    }} />
                 </div>
               )}
-                {/* <button>
-                  <GifBox />
-                </button> TODO  */}
             </div>
           </div>
 
-              <button
-                  type="submit"
-                  className="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white bg-white w-full"
-              >
-                  <i className="far fa-save"></i>
-                  <span>Publicar</span>
-              </button>
+          <button
+            type="submit"
+            className="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white bg-white w-full"
+          >
+            <i className="far fa-save"></i>
+            <span>Publicar</span>
+          </button>
 
-          </form>
+        </form>
       </>
     );
   } else if (tituloPage === 'MusicPage') {
@@ -145,15 +150,15 @@ const handleFileChange = (event) => {
 
   return (
     <Modal
-        isOpen={ isOpen }
-        onRequestClose={ onCloseModal}
-        style={customStyles}
-        className="modal"
-        overlayClassName="modal-fondo"
-        closeTimeoutMS={ 200 }
-        >
+      isOpen={isAnonymyModalOpen}
+      onRequestClose={onCloseModal}
+      style={customStyles}
+      className="modal"
+      overlayClassName="modal-fondo"
+      closeTimeoutMS={200}
+    >
 
-          { contenidoModal }
+      {contenidoModal}
     </Modal>
   )
 }
