@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const tempEvent = {
+    _id: new Date().getTime(),
     text: 'test',
     image: null,
     user: {
@@ -18,10 +19,14 @@ export const anonymySlice = createSlice({
         activeEvent: null
     },
     reducers: {
-        increment: (state,) => {
-            state.counter += 1;
+        onSetActiveEvent: ( state, { payload }) => {
+            state.activeEvent = payload;
+        },
+        onAddNewEvent: (state, { payload }) => {
+            state.events.push( payload );
+            state.activeEvent = null;
         }
     }
 });
 
-export const { increment } = anonymySlice.actions;
+export const { onSetActiveEvent, onAddNewEvent } = anonymySlice.actions;

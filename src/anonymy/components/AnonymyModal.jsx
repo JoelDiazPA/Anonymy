@@ -1,7 +1,8 @@
 import { GifBox, InsertPhoto } from '@mui/icons-material';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 import { useUiStore } from '../../hooks/useUiStore';
+import { useAnonymyStore } from '../../hooks/useAnonymyStore';
 
 const customStyles = {
   content: {
@@ -24,12 +25,21 @@ Modal.setAppElement('#root');
 export const AnonymyModal = ({ tituloPage }) => {
 
   const { isAnonymyModalOpen, closeAnonymyModal } = useUiStore();
+  const { activeEvent, startSavingEvent } = useAnonymyStore();
   const [formSubmitted, setFormSubmitted] = useState(false)
 
   const [formValues, setFormValues] = useState({
-    text: 'Joel',
+    text: '',
     image: null // Cambiado de '' a null
   });
+
+  useEffect(() => {
+    if ( activeEvent !== null) {
+      setFormValues({ ...activeEvent });
+    }
+  
+  }, [activeEvent])
+  
 
   const onInputChanged = ({ target }) => {
     if (target.type === 'file') {
@@ -55,16 +65,18 @@ export const AnonymyModal = ({ tituloPage }) => {
     closeAnonymyModal();
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true)
 
     if (formValues.text.length <= 0) return;
 
     console.log(formValues);
+
     // TODO:
-    // cerrar modal
-    // remover errores pantalla
+    await startSavingEvent( formValues );
+    closeAnonymyModal();
+
   };
 
   const handleFileChange = (event) => {
