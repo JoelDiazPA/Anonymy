@@ -78,6 +78,7 @@ export const AnonymyModal = ({ tituloPage }) => {
 
     // Llama a startSavingEvent con la URL de la imagen en lugar del objeto File
     await startSavingEvent({ ...formValues, image: imageUrl });
+    setSelectedMedia(null); // Reinicia selectedMedia
     closeAnonymyModal();
 };
 

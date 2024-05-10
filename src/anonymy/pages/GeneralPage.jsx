@@ -22,14 +22,23 @@ const Event = ({ text, user, image, onSelect }) => (
       <Typography variant="body1">{text}</Typography>
       {/* Verifica si la URL de la imagen está disponible */}
       {image && (
-        <CardMedia component="img" src={typeof image === 'string' ? image : ''} alt="Event Image" sx={{ mt: 1 }} />
+        <CardMedia 
+          component="img" 
+          src={typeof image === 'string' ? image : ''} 
+          alt="Event Image" 
+          sx={{ 
+            mt: 1,
+            width: 600, // Ancho predeterminado
+            height: 300, // Altura predeterminada
+            objectFit: 'contain' // Para ajustar la imagen al tamaño definido sin deformarla
+          }} 
+        />
       )}
     </CardContent>
   </Card>
 );
 
 export const GeneralPage = () => {
-
   const { openAnonymyModal } = useUiStore();
   const { events, setActiveEvent } = useAnonymyStore();
 
@@ -37,10 +46,10 @@ export const GeneralPage = () => {
   const handleClickNew = () => {
     setActiveEvent({
       text: '',
-      image: null,
+      image: null, // Asegurar que la imagen se establezca como null
       user: {
-          _id: '123',
-          name: 'Joel'
+        _id: '123',
+        name: 'Joel'
       }
     });
     openAnonymyModal();
@@ -54,28 +63,30 @@ export const GeneralPage = () => {
   return (
     <AnonymyLayout>
       <Typography variant="h4" gutterBottom>General Page</Typography>
-      
-      {/* Renderizando los eventos */}
-      {events.map((event, index) => (
-        <Event key={index} text={event.text} user={event.user} image={event.image} onSelect={() => onSelect(event)} />
-      ))}
-      
-      <IconButton
-        onClick={ handleClickNew }
-        size='large'
-        sx={{
-          color: 'white',
-          backgroundColor: 'success.main',
-          ':hover': { backgroundColor: 'success.main', opacity: 0.9 },
-          position: 'fixed',
-          right: 50,
-          bottom: 50,
-        }}
-      >
-        <AddRounded sx={{ fontSize: 30 }} />
-      </IconButton>
 
-      <AnonymyModal tituloPage="GeneralPage"/>
+      <div className='p-4'>
+        {/* Renderizando los eventos */}
+        {events.map((event, index) => (
+          <Event key={index} text={event.text} user={event.user} image={event.image} onSelect={() => onSelect(event)} />
+        ))}
+        
+        <IconButton
+          onClick={ handleClickNew }
+          size='large'
+          sx={{
+            color: 'white',
+            backgroundColor: 'success.main',
+            ':hover': { backgroundColor: 'success.main', opacity: 0.9 },
+            position: 'fixed',
+            right: 50,
+            bottom: 50,
+          }}
+        >
+          <AddRounded sx={{ fontSize: 30 }} />
+        </IconButton>
+
+        <AnonymyModal tituloPage="GeneralPage"/>
+      </div>
     </AnonymyLayout>
   );
 }
