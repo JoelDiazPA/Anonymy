@@ -36,6 +36,18 @@ export const useAnonymyStore = () => {
         }
     }
 
+    const startDeletingEvent =  async () => {
+        try {
+            await anonymyApi.delete((`/events/${ activeEvent.id }`));
+            dispatch( onDeleteEvent() );
+        } catch (error) {
+            console.log(error);
+            Swal.fire('Error al eliminar', error.response.data.msg, 'error');
+        }
+
+        
+    }
+
     const startLoadingEvents = async () => {
         try {
 

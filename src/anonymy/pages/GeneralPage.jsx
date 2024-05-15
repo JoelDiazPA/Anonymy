@@ -7,6 +7,7 @@ import { useUiStore } from '../../hooks/useUiStore';
 import { useAnonymyStore } from '../../hooks/useAnonymyStore';
 import { useAuthStore } from '../../hooks/useAuthStore';
 
+
 const Event = ({ text, user, image, onSelect }) => (
   <Card variant="outlined" sx={{ marginBottom: 2 }} onClick={() => onSelect({ text, user, image })}>
     <CardContent>
@@ -40,9 +41,21 @@ const Event = ({ text, user, image, onSelect }) => (
 );
 
 export const GeneralPage = () => {
-  const { user } = useAuthStore();
+  // const { user } = useAuthStore();
   const { openAnonymyModal } = useUiStore();
   const { events, setActiveEvent, startLoadingEvents } = useAnonymyStore();
+
+  // const eventStyleGetter = ( event, start, end, isSelected ) => {
+  //   const isMyEvent = ( user.uid === event.user._id ) || ( user.uid === event.user._id );
+
+  //   const style = {
+  //     backgroundColor: isMyEvent ? '' : '#465660'
+  //   }
+
+  //   return {
+  //     style
+  //   }
+  // }
 
   // LÓGICA BOTON
   const handleClickNew = () => {
