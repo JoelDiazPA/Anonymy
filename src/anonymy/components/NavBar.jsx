@@ -3,8 +3,13 @@ import { AppBar, Grid, IconButton, Toolbar, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { mainTheme } from '../../theme/mainTheme'
+import { useAuthStore } from '../../hooks/useAuthStore'
 
 export const NavBar = ({ drawerWidth = 240, theme }) => {
+
+    const { startLogout, user } = useAuthStore();
+
+
     return (
         <AppBar
             position='fixed'
@@ -24,9 +29,13 @@ export const NavBar = ({ drawerWidth = 240, theme }) => {
                 </IconButton>
 
                 <Grid container direction='row' justifyContent='space-between' alignItems='center'>
-                    <Typography variant='h6' noWrap component='div'> Bienvenido/a USUARIO </Typography>
+                    <Typography variant='h6' noWrap component='div'> Bienvenido/a { user.name } </Typography>
 
-                    <IconButton color='error' component={Link} to="./auth/login">
+                    <IconButton 
+                        color='error' 
+                        component={Link} to="./auth/login"
+                        onClick={ startLogout }
+                        >
                         <LogoutRounded />
                     </IconButton>
                 </Grid>

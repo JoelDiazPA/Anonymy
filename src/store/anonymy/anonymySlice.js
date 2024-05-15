@@ -1,20 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const tempEvent = {
-    _id: new Date().getTime(),
-    text: 'test',
-    image: null,
-    user: {
-        _id: '123',
-        name: 'Joel'
-    }
-}
+// const tempEvent = {
+//     _id: new Date().getTime(),
+//     text: 'test',
+//     image: null,
+//     user: {
+//         _id: '123',
+//         name: 'Joel'
+//     }
+// }
 
 export const anonymySlice = createSlice({
     name: 'anonymy',
     initialState: {
+        isLoadingEvents: true,
         events: [
-            tempEvent
+            //tempEvent
         ],
         activeEvent: null
     },
@@ -26,8 +27,32 @@ export const anonymySlice = createSlice({
             const { text, user, imageUrl } = payload; // Modificado para recibir solo la URL de la imagen
             state.events.push({ text, user, image: imageUrl }); // Guarda solo la URL de la imagen
             state.activeEvent = null;
+        },
+        onLoadEvents: (state, { payload = [] }) => {
+            state.isLoadingEvents = false;
+            //state.events = payload;
+            payload.forEach( event => {
+                const exists = state.events.some( dbEvent => dbEvent.id === event.id );
+                if ( !exists ) {
+                    state.events.push( event )
+                }
+            })
+        },
+        onUpdateEvent: ( state, { payload } ) => {
+            state.events = state.events.map( event => {
+                if ( event.id === payload.id ) {
+                    return payload;
+                }
+                return event;
+            });
+        },
+        onDeleteEvent: ( state ) => {
+            if ( state.activeEvent ) {
+                state.events = state.events.filter( event => event.id !== state.activeEvent.id );
+                state.activeEvent = null;
+            }
         }
     }
 });
 
-export const { onSetActiveEvent, onAddNewEvent } = anonymySlice.actions;
+export const { onSetActiveEvent, onAddNewEvent, onLoadEvents, onUpdateEvent } = anonymySlice.actions;

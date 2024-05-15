@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import anonymyApi from "../api/anonymyApi";
 import { clearErrorMessage, onChecking, onLogin, onLogout } from "../store/auth/authSlice";
+import { onAddNewEvent } from "../store/anonymy/anonymySlice";
 
 export const useAuthStore = () => {
 
@@ -9,7 +10,6 @@ export const useAuthStore = () => {
 
     const startLogin = async({ email, password }) => {
         dispatch( onChecking() );
-
         try {
             const { data } = await anonymyApi.post('/auth', { email, password });
             localStorage.setItem( 'token', data.token );
@@ -42,6 +42,19 @@ export const useAuthStore = () => {
     }
 
 
+    const startSavingEvent = async( anonymyEvent ) => {
+
+        if ( anonymyEvent.id) {
+            // Actualizando
+            const { data } = await anonymyApi.put(`/events/${ anonymyEvent.id }`, anonymyEvent );
+            dispatch( onUpdateEvent({ ...anonymyEvent, user}) );
+        } else {
+            const { data } = await anonymyApi.post('/events', anonymyEvent );
+            dispatch( onAddNewEvent({ ...anonymyEvent, id: data.evento.id, user }) );
+        }
+    }
+
+
     const checkAuthToken = async() => {
         const token = localStorage.getItem('token');
         if ( !token ) return dispatch( onLogout() );
@@ -50,11 +63,16 @@ export const useAuthStore = () => {
             const { data } = await anonymyApi.get('auth/renew');
             localStorage.setItem( 'token', data.token );
             localStorage.setItem( 'token-init-date', new Date().getTime() );
-            dispatch( onLogin({ name: data.name, uid: data.uid }))
+            dispatch( onLogin({ name: data.name, uid: data.uid }) );
         } catch (error) {
             localStorage.clear();
             dispatch( onLogout() );
         }
+    }
+
+    const startLogout = () => {
+        localStorage.clear();
+        dispatch(onLogout());
     }
 
 
@@ -65,9 +83,12 @@ export const useAuthStore = () => {
         errorMessage,
 
         //Metodos
+        checkAuthToken,
         startLogin,
         startRegister,
-        checkAuthToken,
+        startLogout,
+        startSavingEvent,
+        
     }
 
 }

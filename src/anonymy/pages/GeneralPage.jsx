@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AnonymyLayout } from '../layout/AnonymyLayout';
 import { IconButton, Typography, Avatar, Box, Card, CardContent, CardMedia } from '@mui/material';
 import { AddRounded } from '@mui/icons-material';
@@ -40,7 +40,7 @@ const Event = ({ text, user, image, onSelect }) => (
 
 export const GeneralPage = () => {
   const { openAnonymyModal } = useUiStore();
-  const { events, setActiveEvent } = useAnonymyStore();
+  const { events, setActiveEvent, startLoadingEvents } = useAnonymyStore();
 
   // LÓGICA BOTON
   const handleClickNew = () => {
@@ -59,6 +59,11 @@ export const GeneralPage = () => {
     setActiveEvent(event);
     openAnonymyModal(); // Abre el modal cuando se selecciona un evento
   }
+
+  useEffect(() => {
+    startLoadingEvents();
+  }, [])
+  
 
   return (
     <AnonymyLayout>
