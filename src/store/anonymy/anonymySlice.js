@@ -24,8 +24,7 @@ export const anonymySlice = createSlice({
             state.activeEvent = payload;
         },
         onAddNewEvent: (state, { payload }) => {
-            const { text, user, imageUrl } = payload; // Modificado para recibir solo la URL de la imagen
-            state.events.push({ text, user, image: imageUrl }); // Guarda solo la URL de la imagen
+            state.events.push( payload ); 
             state.activeEvent = null;
         },
         onLoadEvents: (state, { payload = [] }) => {

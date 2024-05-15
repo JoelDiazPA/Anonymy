@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import anonymyApi from "../api/anonymyApi";
 import { clearErrorMessage, onChecking, onLogin, onLogout } from "../store/auth/authSlice";
-import { onAddNewEvent } from "../store/anonymy/anonymySlice";
 
 export const useAuthStore = () => {
 
@@ -41,20 +40,6 @@ export const useAuthStore = () => {
         }
     }
 
-
-    const startSavingEvent = async( anonymyEvent ) => {
-
-        if ( anonymyEvent.id) {
-            // Actualizando
-            const { data } = await anonymyApi.put(`/events/${ anonymyEvent.id }`, anonymyEvent );
-            dispatch( onUpdateEvent({ ...anonymyEvent, user}) );
-        } else {
-            const { data } = await anonymyApi.post('/events', anonymyEvent );
-            dispatch( onAddNewEvent({ ...anonymyEvent, id: data.evento.id, user }) );
-        }
-    }
-
-
     const checkAuthToken = async() => {
         const token = localStorage.getItem('token');
         if ( !token ) return dispatch( onLogout() );
@@ -87,7 +72,6 @@ export const useAuthStore = () => {
         startLogin,
         startRegister,
         startLogout,
-        startSavingEvent,
         
     }
 

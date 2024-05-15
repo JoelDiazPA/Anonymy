@@ -26,7 +26,7 @@ export const useAnonymyStore = () => {
             } 
     
                 // creando
-                const { data } = await anonymyApi.post('/events', anonymyEvent)
+                const { data } = await anonymyApi.post('/events', anonymyEvent );
                 dispatch( onAddNewEvent({ ...anonymyEvent, id: data.evento.id, user }))
             
         } catch (error) {

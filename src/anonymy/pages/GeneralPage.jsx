@@ -5,6 +5,7 @@ import { AddRounded } from '@mui/icons-material';
 import { AnonymyModal } from '../components/AnonymyModal';
 import { useUiStore } from '../../hooks/useUiStore';
 import { useAnonymyStore } from '../../hooks/useAnonymyStore';
+import { useAuthStore } from '../../hooks/useAuthStore';
 
 const Event = ({ text, user, image, onSelect }) => (
   <Card variant="outlined" sx={{ marginBottom: 2 }} onClick={() => onSelect({ text, user, image })}>
@@ -39,6 +40,7 @@ const Event = ({ text, user, image, onSelect }) => (
 );
 
 export const GeneralPage = () => {
+  const { user } = useAuthStore();
   const { openAnonymyModal } = useUiStore();
   const { events, setActiveEvent, startLoadingEvents } = useAnonymyStore();
 
