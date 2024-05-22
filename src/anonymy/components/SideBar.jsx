@@ -114,16 +114,6 @@ export const SideBar = ({ drawerWidth }) => {
                                 </Grid>
                             </ListItemButton>
                         </ListItem>
-                        <ListItem disablePadding component={Link} to="/auth/login">
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Login className="text-black dark:text-white"/>
-                                </ListItemIcon>
-                                <Grid container className='mr-1'>
-                                    <ListItemText primary='Iniciar Sesión'/>
-                                </Grid>
-                            </ListItemButton>
-                        </ListItem>
                     </List>
 
                     {/* Box agregado para estar en la parte baja de la página */}
