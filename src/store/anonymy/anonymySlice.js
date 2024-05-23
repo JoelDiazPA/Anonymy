@@ -45,6 +45,7 @@ export const anonymySlice = createSlice({
                 return event;
             });
         },
+        
         onDeleteEvent: ( state ) => {
             if ( state.activeEvent ) {
                 state.events = state.events.filter( event => event.id !== state.activeEvent.id );
@@ -54,4 +55,4 @@ export const anonymySlice = createSlice({
     }
 });
 
-export const { onSetActiveEvent, onAddNewEvent, onLoadEvents, onUpdateEvent } = anonymySlice.actions;
+export const { onSetActiveEvent, onAddNewEvent, onLoadEvents, onUpdateEvent, onDeleteEvent } = anonymySlice.actions;

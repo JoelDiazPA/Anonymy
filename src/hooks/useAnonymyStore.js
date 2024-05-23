@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { onAddNewEvent, onLoadEvents, onSetActiveEvent, onUpdateEvent } from '../store/anonymy/anonymySlice';
+import { onAddNewEvent, onDeleteEvent, onLoadEvents, onSetActiveEvent, onUpdateEvent } from '../store/anonymy/anonymySlice';
 import anonymyApi from '../api/anonymyApi';
 import Swal from 'sweetalert2';
 
@@ -37,15 +37,7 @@ export const useAnonymyStore = () => {
     }
 
     const startDeletingEvent =  async () => {
-        try {
-            await anonymyApi.delete((`/events/${ activeEvent.id }`));
-            dispatch( onDeleteEvent() );
-        } catch (error) {
-            console.log(error);
-            Swal.fire('Error al eliminar', error.response.data.msg, 'error');
-        }
-
-        
+        dispatch( onDeleteEvent() );
     }
 
     const startLoadingEvents = async () => {
@@ -63,11 +55,13 @@ export const useAnonymyStore = () => {
         // Properties
         activeEvent,
         events,
+        hasEventSelected: !!activeEvent,
 
         // Metodos
         setActiveEvent,
         startSavingEvent,
         startLoadingEvents,
+        startDeletingEvent,
 
     }   
   

@@ -1,8 +1,9 @@
-import { GifBox, InsertPhoto } from '@mui/icons-material';
+import { DeleteOutline, GifBox, InsertPhoto } from '@mui/icons-material';
 import { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 import { useUiStore } from '../../hooks/useUiStore';
 import { useAnonymyStore } from '../../hooks/useAnonymyStore';
+import { onDeleteEvent } from '../../store/anonymy/anonymySlice';
 
 
 const customStyles = {
@@ -29,6 +30,8 @@ export const AnonymyModal = ({ tituloPage }) => {
   const { activeEvent, startSavingEvent } = useAnonymyStore();
   const [formSubmitted, setFormSubmitted] = useState(false)
 
+  const { startDeletingEvent, hasEventSelected } = useAnonymyStore();
+
   const [formValues, setFormValues] = useState({
     text: '',
     imageUrl: null // Cambiado de image a imageUrl
@@ -37,6 +40,11 @@ export const AnonymyModal = ({ tituloPage }) => {
   useEffect(() => {
     if (activeEvent !== null) {
       setFormValues({ ...activeEvent });
+    } else {
+      setFormValues({
+        text: '',
+        imageUrl: null
+      });
     }
   }, [activeEvent])
 
@@ -91,6 +99,12 @@ export const AnonymyModal = ({ tituloPage }) => {
       imageUrl: mediaURL // Guardamos la URL de la imagen
     });
     console.log('Archivo seleccionado:', file);
+  };
+
+  const handleDelete = () => {
+      startDeletingEvent();
+      closeAnonymyModal();
+    
   };
 
   const openFileExplorer = (event) => {
@@ -150,6 +164,17 @@ export const AnonymyModal = ({ tituloPage }) => {
             <i className="far fa-save"></i>
             <span>Publicar</span>
           </button>
+
+          {hasEventSelected && ( //TODO: arreglar que aparezca si lo abres o si el usuario.id = usuario.id
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline text-red-600 border-red-600 hover:bg-red-600 hover:text-white bg-white w-full mt-2"
+            >
+              <DeleteOutline />
+              <span>Eliminar</span>
+            </button>
+          )}
 
         </form>
       </>

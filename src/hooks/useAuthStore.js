@@ -23,6 +23,22 @@ export const useAuthStore = () => {
         }
     }
 
+    const startAnonymousLogin = async({ name }) => {
+        dispatch(onChecking());
+        try {
+            const { data } = await anonymyApi.post('/auth/anonymous', { name });
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+            dispatch( onLogin({ name: data.name, uid: data.uid }));
+            
+        } catch (error) {
+            dispatch(onLogout('No se pudo iniciar sesión como anónimo'));
+            setTimeout(() => {
+                dispatch(clearErrorMessage());
+            }, 10);
+        }
+    };
+
     const startRegister = async({ email, password, name }) => {
         dispatch( onChecking() );
 
@@ -72,6 +88,7 @@ export const useAuthStore = () => {
         startLogin,
         startRegister,
         startLogout,
+        startAnonymousLogin,
         
     }
 

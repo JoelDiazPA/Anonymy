@@ -19,7 +19,7 @@ const AnonymFormFields = {
 
 export const LoginPage = () => {
 
-  const { startLogin, errorMessage } = useAuthStore();
+  const { startLogin, startAnonymousLogin, errorMessage } = useAuthStore();
 
   const { loginEmail, loginPassword, onInputChange:onLoginInputChange } = useForm( loginFormFields );
   const { anonymUser, onInputChange:onAnonymInputChange } = useForm( AnonymFormFields );
@@ -31,7 +31,7 @@ export const LoginPage = () => {
 
   const anonymSubmit = ( event ) => {
     event.preventDefault();
-    console.log({ anonymUser })
+    startAnonymousLogin({ name: anonymUser });
   }
 
   useEffect(() => {

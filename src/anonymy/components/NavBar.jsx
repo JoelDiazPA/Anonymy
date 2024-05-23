@@ -29,7 +29,7 @@ export const NavBar = ({ drawerWidth = 240, theme }) => {
                 </IconButton>
 
                 <Grid container direction='row' justifyContent='space-between' alignItems='center'>
-                    <Typography variant='h6' noWrap component='div'> Bienvenido/a { user.name } </Typography>
+                    <Typography className='dark:text-white' variant='h6' noWrap component='div'> Bienvenido/a { user.name } </Typography>
 
                     <IconButton 
                         color='error' 
