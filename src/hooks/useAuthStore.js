@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import anonymyApi from "../api/anonymyApi";
 import { clearErrorMessage, onChecking, onLogin, onLogout } from "../store/auth/authSlice";
+import { onLogoutAnonymy } from "../store/anonymy/anonymySlice";
 
 export const useAuthStore = () => {
 
@@ -73,6 +74,7 @@ export const useAuthStore = () => {
 
     const startLogout = () => {
         localStorage.clear();
+        dispatch( onLogoutAnonymy() );
         dispatch(onLogout());
     }
 

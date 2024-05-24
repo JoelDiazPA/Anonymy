@@ -51,8 +51,21 @@ export const anonymySlice = createSlice({
                 state.events = state.events.filter( event => event.id !== state.activeEvent.id );
                 state.activeEvent = null;
             }
+        },
+
+        onLogoutAnonymy: ( state ) => {
+            state.isLoadingEvents = true,
+            state.events = []
+            state.activeEvent = null
         }
     }
 });
 
-export const { onSetActiveEvent, onAddNewEvent, onLoadEvents, onUpdateEvent, onDeleteEvent } = anonymySlice.actions;
+export const { 
+    onSetActiveEvent, 
+    onAddNewEvent, 
+    onLoadEvents, 
+    onUpdateEvent, 
+    onDeleteEvent,
+    onLogoutAnonymy,
+} = anonymySlice.actions;
