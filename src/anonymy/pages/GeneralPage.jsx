@@ -5,8 +5,7 @@ import { AddRounded } from '@mui/icons-material';
 import { AnonymyModal } from '../components/AnonymyModal';
 import { useUiStore } from '../../hooks/useUiStore';
 import { useAnonymyStore } from '../../hooks/useAnonymyStore';
-
-
+import { format } from 'date-fns'; // Importa una librería para formatear fechas (opcional)
 
 const Event = ({ text, user, image, responses, onAddResponse }) => {
   const [responseText, setResponseText] = useState('');
@@ -33,10 +32,17 @@ const Event = ({ text, user, image, responses, onAddResponse }) => {
           />
         )}
         <Box sx={{ mt: 2 }}>
-          <Typography variant="subtitle2">Comentarios ({responses.length}):</Typography> {/* Contador de comentarios */}
+          <Typography variant="subtitle2">Comentarios ({responses.length}):</Typography>
           {responses.map((response, index) => (
             <Box key={index} sx={{ mt: 1, pl: 2, borderLeft: '1px solid gray' }}>
-              <Typography variant="body2"><strong>{response.user.name}</strong>: {response.text}</Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'top' }}>
+                <Typography variant="body2" sx={{ maxWidth: '80%' }}> {/* Limita el espacio del texto del comentario */}
+                  <strong>{response.user.name}</strong>: {response.text}
+                </Typography>
+                <Typography variant="caption" sx={{ fontSize: '0.8em', color: 'gray', flexShrink: 0 }}> {/* Evita que la fecha se encoja */}
+                  {format(new Date(response.date), 'dd/MM/yyyy HH:mm')}
+                </Typography>
+              </Box>
             </Box>
           ))}
           <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
@@ -46,7 +52,7 @@ const Event = ({ text, user, image, responses, onAddResponse }) => {
               variant="outlined" 
               size="small" 
               fullWidth 
-              placeholder="Añade una comentario..."
+              placeholder="Añade un comentario..."
             />
             <Button onClick={handleAddResponse} variant="contained" sx={{ ml: 1 }}>Comentar</Button>
           </Box>
@@ -56,9 +62,7 @@ const Event = ({ text, user, image, responses, onAddResponse }) => {
   );
 };
 
-
 export default Event;
-
 
 export const GeneralPage = () => {
   const { openAnonymyModal } = useUiStore();
