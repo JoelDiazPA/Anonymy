@@ -36,17 +36,15 @@ export const useAnonymyStore = () => {
         }
     }
 
-    const startDeletingEvent =  async () => {
-        try {
-            await anonymyApi.delete(`/events/${ activeEvent.id }`)
-            dispatch( onDeleteEvent() );
-        } catch (error) {
-            console.log(error)
-            Swal.fire('Error al eliminar', error.response.data.msg, 'error');
-
-        }
-        
-    }
+    const startDeletingEvent = async (id) => {
+      try {
+          await anonymyApi.delete(`/events/${id}`);
+          dispatch(onDeleteEvent(id)); // Pasa el id al dispatch
+      } catch (error) {
+          console.log(error);
+          Swal.fire('Error al eliminar', error.response.data.msg, 'error');
+      }
+  };
 
     const startLoadingEvents = async () => {
       try {

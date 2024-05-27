@@ -32,11 +32,9 @@ export const anonymySlice = createSlice({
                 return event;
             });
         },
-        onDeleteEvent: (state) => {
-            if (state.activeEvent) {
-                state.events = state.events.filter(event => event.id !== state.activeEvent.id);
-                state.activeEvent = null;
-            }
+        onDeleteEvent: (state, { payload }) => {
+            state.events = state.events.filter(event => event.id !== payload);
+            state.activeEvent = null;
         },
         onAddResponse: (state, { payload }) => {
             const { eventId, response } = payload;
