@@ -1,97 +1,107 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnonymyLayout } from '../layout/AnonymyLayout';
-import { IconButton, Typography, Avatar, Box, Card, CardContent, CardMedia } from '@mui/material';
+import { IconButton, Typography, Avatar, Box, Card, CardContent, CardMedia, TextField, Button } from '@mui/material';
 import { AddRounded } from '@mui/icons-material';
 import { AnonymyModal } from '../components/AnonymyModal';
 import { useUiStore } from '../../hooks/useUiStore';
 import { useAnonymyStore } from '../../hooks/useAnonymyStore';
-import { useAuthStore } from '../../hooks/useAuthStore';
 
 
-const Event = ({ text, user, image, onSelect }) => (
-  <Card variant="outlined" sx={{ marginBottom: 2 }} onClick={() => onSelect({ text, user, image })}>
-    <CardContent>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          paddingBottom: 1,
-        }}
-      >
-        <Avatar sx={{ marginRight: 1 }}>{user.name.charAt(0)}</Avatar>
-        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{user.name}</Typography>
-      </Box>
-      <Typography variant="body1">{text}</Typography>
-      {/* Verifica si la URL de la imagen está disponible */}
-      {image && (
-        <CardMedia 
-          component="img" 
-          src={typeof image === 'string' ? image : ''} 
-          alt="Event Image" 
-          sx={{ 
-            mt: 1,
-            width: 600, // Ancho predeterminado
-            height: 300, // Altura predeterminada
-            objectFit: 'contain' // Para ajustar la imagen al tamaño definido sin deformarla
-          }} 
-        />
-      )}
-    </CardContent>
-  </Card>
-);
+
+const Event = ({ text, user, image, responses, onAddResponse }) => {
+  const [responseText, setResponseText] = useState('');
+
+  const handleAddResponse = () => {
+    onAddResponse(responseText);
+    setResponseText('');
+  };
+
+  return (
+    <Card variant="outlined" sx={{ marginBottom: 2 }}>
+      <CardContent>
+        <Box sx={{ display: 'flex', alignItems: 'center', paddingBottom: 1 }}>
+          <Avatar sx={{ marginRight: 1 }}>{user.name.charAt(0)}</Avatar>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{user.name}</Typography>
+        </Box>
+        <Typography variant="body1">{text}</Typography>
+        {image && (
+          <CardMedia 
+            component="img" 
+            src={typeof image === 'string' ? image : ''} 
+            alt="Event Image" 
+            sx={{ mt: 1, width: 600, height: 300, objectFit: 'contain' }} 
+          />
+        )}
+        <Box sx={{ mt: 2 }}>
+          <Typography variant="subtitle2">Comentarios ({responses.length}):</Typography> {/* Contador de comentarios */}
+          {responses.map((response, index) => (
+            <Box key={index} sx={{ mt: 1, pl: 2, borderLeft: '1px solid gray' }}>
+              <Typography variant="body2"><strong>{response.user.name}</strong>: {response.text}</Typography>
+            </Box>
+          ))}
+          <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
+            <TextField 
+              value={responseText} 
+              onChange={(e) => setResponseText(e.target.value)} 
+              variant="outlined" 
+              size="small" 
+              fullWidth 
+              placeholder="Añade una comentario..."
+            />
+            <Button onClick={handleAddResponse} variant="contained" sx={{ ml: 1 }}>Comentar</Button>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+};
+
+
+export default Event;
+
 
 export const GeneralPage = () => {
-  // const { user } = useAuthStore();
   const { openAnonymyModal } = useUiStore();
-  const { events, setActiveEvent, startLoadingEvents } = useAnonymyStore();
+  const { events, setActiveEvent, startLoadingEvents, startAddingResponse } = useAnonymyStore();
 
-  // const eventStyleGetter = ( event, start, end, isSelected ) => {
-  //   const isMyEvent = ( user.uid === event.user._id ) || ( user.uid === event.user._id );
-
-  //   const style = {
-  //     backgroundColor: isMyEvent ? '' : '#465660'
-  //   }
-
-  //   return {
-  //     style
-  //   }
-  // }
-
-  // LÓGICA BOTON
   const handleClickNew = () => {
     setActiveEvent({
       text: '',
-      image: null, // Asegurar que la imagen se establezca como null
+      image: null,
       user: {
         _id: '123',
         name: 'Joel'
       }
     });
     openAnonymyModal();
-  }
+  };
 
-  const onSelect = (event) => {
-    setActiveEvent(event);
-    openAnonymyModal(); // Abre el modal cuando se selecciona un evento
-  }
+  const onAddResponse = (eventId, responseText) => {
+    startAddingResponse(eventId, responseText);
+  };
 
   useEffect(() => {
     startLoadingEvents();
-  }, [])
-  
+  }, []);
 
   return (
     <AnonymyLayout>
       <Typography variant="h4" gutterBottom>General Page</Typography>
 
       <div className='p-4'>
-        {/* Renderizando los eventos */}
         {events.map((event, index) => (
-          <Event key={index} text={event.text} user={event.user} image={event.image} onSelect={() => onSelect(event)} />
+          <Event 
+            key={index} 
+            text={event.text} 
+            user={event.user} 
+            image={event.image} 
+            responses={event.responses || []}
+            onAddResponse={(responseText) => onAddResponse(event.id, responseText)}
+          />
         ))}
         
         <IconButton
-          onClick={ handleClickNew }
+          onClick={handleClickNew}
           size='large'
           sx={{
             color: 'white',
@@ -109,4 +119,4 @@ export const GeneralPage = () => {
       </div>
     </AnonymyLayout>
   );
-}
+};

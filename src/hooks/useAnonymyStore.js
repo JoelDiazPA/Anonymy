@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { onAddNewEvent, onDeleteEvent, onLoadEvents, onSetActiveEvent, onUpdateEvent } from '../store/anonymy/anonymySlice';
+import { onAddNewEvent, onAddResponse, onDeleteEvent, onLoadEvents, onSetActiveEvent, onUpdateEvent } from '../store/anonymy/anonymySlice';
 import anonymyApi from '../api/anonymyApi';
 import Swal from 'sweetalert2';
 
@@ -49,15 +49,24 @@ export const useAnonymyStore = () => {
     }
 
     const startLoadingEvents = async () => {
+      try {
+        const { data } = await anonymyApi.get('/events');
+        dispatch(onLoadEvents(data.eventos));
+      } catch (error) {
+        console.log('Error loading events:', error);
+      }
+    };
+    
+      const startAddingResponse = async (eventId, responseText) => {
         try {
-
-            const { data } = await anonymyApi.get('/events')
-            dispatch( onLoadEvents( data.eventos ) );
+          const { data } = await anonymyApi.post(`/events/${eventId}/response`, { text: responseText });
+          const addedResponse = data.event.responses[data.event.responses.length - 1]; // La última respuesta agregada
+      
+          dispatch(onAddResponse({ eventId, response: addedResponse }));
         } catch (error) {
-            console.log('Error cargando eventos')
-            console.log(error)
+          console.log('Error adding response:', error);
         }
-    }
+      };
 
     return {
         // Properties
@@ -70,7 +79,7 @@ export const useAnonymyStore = () => {
         startSavingEvent,
         startLoadingEvents,
         startDeletingEvent,
-
+        startAddingResponse,
     }   
   
 }
