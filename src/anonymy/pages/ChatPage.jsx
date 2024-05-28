@@ -24,14 +24,21 @@ const Event = ({ id, text, user, image, onDelete }) => {
 export default Event;
 
 export const ChatPage = () => {
-  const { events, startLoadingEvents, startSavingEvent, startDeletingEvent } = useAnonymyStore();
+  const { events, startLoadingEvents, startSavingEvent } = useAnonymyStore();
   const [newMessage, setNewMessage] = useState('');
   const [selectedMedia, setSelectedMedia] = useState(null);
   const fileInputRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     startLoadingEvents();
   }, []);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [events]);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -47,24 +54,13 @@ export const ChatPage = () => {
     }
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    const mediaURL = URL.createObjectURL(file);
-    setSelectedMedia(mediaURL);
-  };
-
-  const openFileExplorer = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleDeleteEvent = (id) => {
-    startDeletingEvent(id);
-  };
-
   return (
     <AnonymyLayout>
       <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(98vh - 64px)' }}>
-        <Typography variant="h4" gutterBottom>Chat Page</Typography>
+        <div className='flex' >
+        <Typography variant="h5" gutterBottom className='text-black dark:text-white'> Chat En Directo</Typography>
+        <span className="blink_me mt-3 ml-3"></span>
+        </div>
         <Box sx={{ flex: 1, overflowY: 'auto', padding: 2 }}>
           {events.map((event) => (
             <Event 
@@ -73,9 +69,9 @@ export const ChatPage = () => {
               text={event.text} 
               user={event.user} 
               image={event.image} 
-              onDelete={handleDeleteEvent}
             />
           ))}
+          <div ref={messagesEndRef} />
         </Box>
         <Box component="form" onSubmit={handleSendMessage} sx={{ display: 'flex', alignItems: 'center', padding: 2, borderTop: '1px solid #ccc' }}>
           <TextField 
@@ -84,10 +80,10 @@ export const ChatPage = () => {
             variant="outlined" 
             size="small" 
             placeholder="Escribe un mensaje..." 
-            fullWidth 
+            fullWidth
           />
           <IconButton type="submit" color="primary">
-            <SendIcon />
+            <SendIcon className='text-black dark:text-white' />
           </IconButton>
         </Box>
       </Box>
