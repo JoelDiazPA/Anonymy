@@ -4,11 +4,9 @@ import anonymyApi from '../api/anonymyApi';
 import Swal from 'sweetalert2';
 import { onAddNewMessage, onLoadMessages, onSetActiveMessage } from '../store/anonymy/chatSlice';
 
-export const useChatStore = () => {
+export const useAnonymyStore = () => {
 
-    const { messages } = useSelector( state => state.anonymy );
     const dispatch = useDispatch();
-    const { user } = useSelector( state => state.auth );
 
 
     const setActiveMessage = ( anonymyMessage ) => {
@@ -46,5 +44,5 @@ export const useChatStore = () => {
         startSavingMessage,
         startLoadingMessages,
     }   
-
+  
 }
