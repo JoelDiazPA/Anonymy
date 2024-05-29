@@ -4,15 +4,33 @@ import { Typography, Avatar, Box, Card, CardContent, TextField, IconButton } fro
 import SendIcon from '@mui/icons-material/Send';
 import { AnonymyModal } from '../components/AnonymyModal';
 import { useChatStore } from '../../hooks/useChatStore';
+import { useSelector } from 'react-redux';
 
 const Message = ({ id, text, user }) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: user.isCurrentUser ? 'row-reverse' : 'row', alignItems: 'flex-start', marginBottom: 2 }}>
-      <Avatar sx={{ marginRight: user.isCurrentUser ? 0 : 1, marginLeft: user.isCurrentUser ? 1 : 0 }}>{user.name.charAt(0)}</Avatar>
-      <Card variant="outlined" sx={{ maxWidth: '70%', backgroundColor: user.isCurrentUser ? '#dcf8c6' : '#ffffff' }}>
+    <Box sx={{ 
+      display: 'flex', 
+      flexDirection: user.isCurrentUser ? 'row-reverse' : 'row', 
+      alignItems: 'flex-start', 
+      marginBottom: 2 
+    }}>
+      <Avatar sx={{ 
+        marginRight: user.isCurrentUser ? 0 : 1, 
+        marginLeft: user.isCurrentUser ? 1 : 0 
+      }}>
+        {user.name.charAt(0)}
+      </Avatar>
+      <Card variant="outlined" sx={{ 
+        maxWidth: '70%', 
+        backgroundColor: user.isCurrentUser ? '#dcf8c6' : '#ffffff' 
+      }}>
         <CardContent>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{user.name}</Typography>
-          <Typography variant="body1">{text}</Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+            {user.name}
+          </Typography>
+          <Typography variant="body1">
+            {text}
+          </Typography>
         </CardContent>
       </Card>
     </Box>
@@ -23,6 +41,9 @@ export const ChatPage = () => {
   const { messages, startLoadingMessages, startSavingMessage } = useChatStore();
   const [newMessage, setNewMessage] = useState('');
   const messagesEndRef = useRef(null);
+  
+  // Obtener el usuario actual del estado de autenticación
+  const { user } = useSelector(state => state.auth);
 
   useEffect(() => {
     startLoadingMessages();
@@ -39,7 +60,7 @@ export const ChatPage = () => {
     if (newMessage.trim() !== '') {
       const newMessageData = {
         text: newMessage,
-        user: { name: 'CurrentUser', isCurrentUser: true } // Ajusta esto según tu lógica de usuario actual
+        user: { name: user.name, isCurrentUser: true } // Ajusta esto según tu lógica de usuario actual
       };
       startSavingMessage(newMessageData);
       setNewMessage('');
@@ -59,7 +80,10 @@ export const ChatPage = () => {
               key={message.id} 
               id={message.id}
               text={message.text} 
-              user={message.user} 
+              user={{ 
+                ...message.user, 
+                isCurrentUser: message.user.name === user.name 
+              }} 
             />
           ))}
           <div ref={messagesEndRef} />
