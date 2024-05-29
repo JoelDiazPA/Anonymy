@@ -7,12 +7,8 @@ export const chatSlice = createSlice({
         messages: [],
     },
     reducers: {
-        onSetActiveMessage: (state, { payload }) => {
-            state.activeMessage = payload;
-        },
         onAddNewMessage: (state, { payload }) => {
             state.messages.push(payload);
-            state.activeMessage = null;
         },
         onLoadMessages: (state, { payload = [] }) => {
             state.isLoadingMessages = false;
@@ -26,7 +22,6 @@ export const chatSlice = createSlice({
         onLogoutAnonymy: (state) => {
             state.isLoadingMessages = true,
             state.messages = []
-            state.activeMessage = null
         }
     }
 });
@@ -35,5 +30,4 @@ export const {
     onAddNewMessage,
     onLoadMessages,
     onLogoutAnonymy,
-    onSetActiveMessage,
 } = chatSlice.actions;

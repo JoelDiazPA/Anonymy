@@ -7,6 +7,8 @@ import { onAddNewMessage, onLoadMessages, onSetActiveMessage } from '../store/an
 export const useAnonymyStore = () => {
 
     const dispatch = useDispatch();
+    const { messages, activeMessage } = useSelector( state => state.anonymy );
+    const { user } = useSelector( state => state.auth );
 
 
     const setActiveMessage = ( anonymyMessage ) => {
@@ -37,6 +39,7 @@ export const useAnonymyStore = () => {
 
     return {
         // Properties
+        activeMessage,
         messages,
 
         // Metodos

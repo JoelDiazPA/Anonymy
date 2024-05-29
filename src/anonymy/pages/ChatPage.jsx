@@ -14,7 +14,6 @@ const Event = ({ id, text, user, image, onDelete }) => {
         <CardContent>
           <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{user.name}</Typography>
           <Typography variant="body1">{text}</Typography>
-          {image && <Box component="img" src={image} alt="image" sx={{ width: '100%', marginTop: 1 }} />}
         </CardContent>
       </Card>
     </Box>
