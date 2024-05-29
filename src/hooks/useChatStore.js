@@ -4,7 +4,7 @@ import anonymyApi from '../api/anonymyApi';
 import Swal from 'sweetalert2';
 import { onAddNewMessage, onLoadMessages, onSetActiveMessage } from '../store/anonymy/chatSlice';
 
-export const useAnonymyStore = () => {
+export const useChatStore = () => {
 
     const dispatch = useDispatch();
     const { messages, activeMessage } = useSelector( state => state.anonymy );

@@ -6,7 +6,7 @@ import { DeleteOutline, InsertPhoto } from '@mui/icons-material';
 import { AnonymyModal } from '../components/AnonymyModal';
 import { useAnonymyStore } from '../../hooks/useAnonymyStore';
 
-const Event = ({ id, text, user, image, onDelete }) => {
+const Message = ({ id, text, user, image, onDelete }) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: user.isCurrentUser ? 'row-reverse' : 'row', alignItems: 'flex-start', marginBottom: 2 }}>
       <Avatar sx={{ marginRight: user.isCurrentUser ? 0 : 1, marginLeft: user.isCurrentUser ? 1 : 0 }}>{user.name.charAt(0)}</Avatar>
@@ -62,7 +62,7 @@ export const ChatPage = () => {
         </div>
         <Box sx={{ flex: 1, overflowY: 'auto', padding: 2 }}>
           {events.map((event) => (
-            <Event 
+            <Message 
               key={event.id} 
               id={event.id}
               text={event.text} 
