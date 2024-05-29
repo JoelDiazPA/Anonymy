@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { AnonymyLayout } from '../layout/AnonymyLayout';
-import { Typography, Avatar, Box, Card, CardContent, TextField, IconButton, Button } from '@mui/material';
+import { Typography, Avatar, Box, Card, CardContent, TextField, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import { DeleteOutline, InsertPhoto } from '@mui/icons-material';
 import { AnonymyModal } from '../components/AnonymyModal';
-import { useAnonymyStore } from '../../hooks/useAnonymyStore';
+import { useChatStore } from '../../hooks/useChatStore';
 
-const Message = ({ id, text, user, image, onDelete }) => {
+const Message = ({ id, text, user }) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: user.isCurrentUser ? 'row-reverse' : 'row', alignItems: 'flex-start', marginBottom: 2 }}>
       <Avatar sx={{ marginRight: user.isCurrentUser ? 0 : 1, marginLeft: user.isCurrentUser ? 1 : 0 }}>{user.name.charAt(0)}</Avatar>
@@ -20,54 +19,47 @@ const Message = ({ id, text, user, image, onDelete }) => {
   );
 };
 
-export default Event;
-
 export const ChatPage = () => {
-  const { events, startLoadingEvents, startSavingEvent } = useAnonymyStore();
+  const { messages, startLoadingMessages, startSavingMessage } = useChatStore();
   const [newMessage, setNewMessage] = useState('');
-  const [selectedMedia, setSelectedMedia] = useState(null);
-  const fileInputRef = useRef(null);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    startLoadingEvents();
+    startLoadingMessages();
   }, []);
 
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [events]);
+  }, [messages]);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (newMessage.trim() !== '') {
-      const newEvent = {
+      const newMessageData = {
         text: newMessage,
-        image: selectedMedia,
-        user: { name: 'CurrentUser', isCurrentUser: true }
+        user: { name: 'CurrentUser', isCurrentUser: true } // Ajusta esto según tu lógica de usuario actual
       };
-      startSavingEvent(newEvent);
+      startSavingMessage(newMessageData);
       setNewMessage('');
-      setSelectedMedia(null);
     }
   };
 
   return (
     <AnonymyLayout>
       <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(98vh - 64px)' }}>
-        <div className='flex' >
-        <Typography variant="h5" gutterBottom className='text-black dark:text-white'> Chat En Directo</Typography>
-        <span className="blink_me mt-3 ml-3"></span>
+        <div className='flex'>
+          <Typography variant="h5" gutterBottom className='text-black dark:text-white'>Chat En Directo</Typography>
+          <span className="blink_me mt-3 ml-3"></span>
         </div>
         <Box sx={{ flex: 1, overflowY: 'auto', padding: 2 }}>
-          {events.map((event) => (
+          {messages.map((message) => (
             <Message 
-              key={event.id} 
-              id={event.id}
-              text={event.text} 
-              user={event.user} 
-              image={event.image} 
+              key={message.id} 
+              id={message.id}
+              text={message.text} 
+              user={message.user} 
             />
           ))}
           <div ref={messagesEndRef} />
