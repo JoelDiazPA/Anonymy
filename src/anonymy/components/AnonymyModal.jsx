@@ -130,31 +130,6 @@ export const AnonymyModal = ({ tituloPage }) => {
               value={formValues.text}
               onChange={onInputChanged}
             ></textarea>
-            <div className='text-center'>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                style={{ display: 'none' }}
-                ref={fileInputRef}
-                name='image'
-              />
-              <button onClick={openFileExplorer}>
-                <InsertPhoto />
-              </button>
-              {selectedMedia && (
-                <div className="mt-4">
-                  <img src={selectedMedia} alt="Multimedia seleccionado"
-                    style={{
-                      display: 'block',
-                      maxWidth: '530px',
-                      maxHeight: '300px',
-                      width: '600px',
-                      height: '400px',
-                    }} />
-                </div>
-              )}
-            </div>
           </div>
 
           <button
@@ -164,7 +139,7 @@ export const AnonymyModal = ({ tituloPage }) => {
             <i className="far fa-save"></i>
             <span>Publicar</span>
           </button>
-
+{/* IMAGEN
           {hasEventSelected && ( //TODO: arreglar que aparezca si lo abres o si el usuario.id = usuario.id
             <button
               type="button"
@@ -174,7 +149,7 @@ export const AnonymyModal = ({ tituloPage }) => {
               <DeleteOutline />
               <span>Eliminar</span>
             </button>
-          )}
+          )} */}
 
         </form>
       </>

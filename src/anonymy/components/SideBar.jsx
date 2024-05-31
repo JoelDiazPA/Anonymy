@@ -2,7 +2,7 @@ import { ThemeProvider } from "@emotion/react";
 import { mainTheme } from "../../theme/mainTheme";
 import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { ChatOutlined, DarkModeOutlined, HomeRounded, LightModeOutlined, Login, MusicNoteOutlined, NewspaperOutlined, PublicOutlined, TurnedInNot } from "@mui/icons-material";
+import { ChatOutlined, DarkModeOutlined, HomeRounded, LightModeOutlined, Login, MusicNoteOutlined, NewspaperOutlined, PublicOutlined, TurnedInNot, X } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { NavBar } from './NavBar'; // Importa el componente NavBar
 
@@ -84,23 +84,13 @@ export const SideBar = ({ drawerWidth }) => {
                                 </Grid>
                             </ListItemButton>
                         </ListItem>
-                        <ListItem disablePadding component={Link} to="/music">
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <MusicNoteOutlined className="text-black dark:text-white"/>
-                                </ListItemIcon>
-                                <Grid container className='mr-1'>
-                                    <ListItemText primary='Música'/>
-                                </Grid>
-                            </ListItemButton>
-                        </ListItem>
                         <ListItem disablePadding component={Link} to="/general">
                             <ListItemButton>
                                 <ListItemIcon>
-                                    <PublicOutlined className="text-black dark:text-white"/>
+                                    <X className="text-black dark:text-white"/>
                                 </ListItemIcon>
                                 <Grid container className='mr-1'>
-                                    <ListItemText primary='General'/>
+                                    <ListItemText primary='Modo X'/>
                                 </Grid>
                             </ListItemButton>
                         </ListItem>
@@ -110,7 +100,7 @@ export const SideBar = ({ drawerWidth }) => {
                                     <ChatOutlined className="text-black dark:text-white"/>
                                 </ListItemIcon>
                                 <Grid container className='mr-1'>
-                                    <ListItemText primary='Chat'/>
+                                    <ListItemText primary='Chat En Directo'/>
                                 </Grid>
                             </ListItemButton>
                         </ListItem>

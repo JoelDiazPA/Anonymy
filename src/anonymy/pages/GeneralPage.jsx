@@ -22,13 +22,13 @@ const Event = ({ id, text, user, image, responses, onAddResponse}) => {
   };
 
   return (
-    <Card variant="outlined" sx={{ marginBottom: 2 }}>
+    <Card variant="outlined" sx={{ marginBottom: 2, backgroundColor: '#BACBDB' }}>
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', paddingBottom: 1 }}>
           <Avatar sx={{ marginRight: 1 }}>{user.name.charAt(0)}</Avatar>
           <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{user.name}</Typography>
           <IconButton onClick={handleDelete} sx={{ marginLeft: 'auto' }}>
-            <DeleteOutline />
+            <DeleteOutline className='text-red-600'/>
           </IconButton>
 
         </Box>
@@ -100,7 +100,6 @@ export const GeneralPage = () => {
 
   return (
     <AnonymyLayout>
-      <Typography variant="h4" gutterBottom>General Page</Typography>
       <div className='p-4'>
         {events.map((event) => (
           <Event 

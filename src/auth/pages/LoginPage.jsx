@@ -63,15 +63,9 @@ export const LoginPage = () => {
           </Grid>
 
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <Button variant='contained' fullWidth type="submit">
-                Ingresar
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Button variant='contained' fullWidth>
-                <Google />
-                <Typography sx={{ ml: 1 }}>Google</Typography>
+                Iniciar Sesión
               </Button>
             </Grid>
           </Grid>
@@ -85,7 +79,7 @@ export const LoginPage = () => {
       </form>
 
       <form onSubmit={anonymSubmit} className='mt-10'>
-        <Typography variant='h5' sx={{ mb: 1 }}>Inicia Sesión como ANÓNIMO</Typography>
+        <Typography variant='h5' sx={{ textAlign: 'center' }}>Inicia Sesión como ANÓNIMO</Typography>
         <Grid container>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12} sm={12}>

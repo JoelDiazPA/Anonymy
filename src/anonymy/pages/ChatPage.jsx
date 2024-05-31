@@ -70,9 +70,9 @@ export const ChatPage = () => {
   return (
     <AnonymyLayout>
       <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(98vh - 64px)' }}>
-        <div className='flex'>
-          <Typography variant="h5" gutterBottom className='text-black dark:text-white'>Chat En Directo</Typography>
-          <span className="blink_me mt-3 ml-3"></span>
+        <div className='flex bg-gray-300 dark:bg-gray-800'>
+          <Typography variant="h5" gutterBottom className='p-2 text-black dark:text-white'>Chat En Directo</Typography>
+          <span className="blink_me mt-5 ml-3"></span>
         </div>
         <Box sx={{ flex: 1, overflowY: 'auto', padding: 2 }}>
           {messages.map((message) => (
@@ -96,6 +96,25 @@ export const ChatPage = () => {
             size="small" 
             placeholder="Escribe un mensaje..." 
             fullWidth
+            InputProps={{
+              style: { backgroundColor: '#ffffff', color: '#000000' }
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'rgba(0, 0, 0, 0.23)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'rgba(0, 0, 0, 0.87)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#000000',
+                },
+              },
+              '& .MuiInputBase-input': {
+                color: '#000000',
+              }
+            }}
           />
           <IconButton type="submit" color="primary">
             <SendIcon className='text-black dark:text-white' />
