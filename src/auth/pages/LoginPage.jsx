@@ -34,7 +34,9 @@ export const LoginPage = () => {
     }
   }, [errorMessage]);
 
+
   return (
+    
     <AuthLayout title='Inicia Sesión'>
       <form onSubmit={loginSubmit}>
         <Grid container>

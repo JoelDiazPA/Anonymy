@@ -6,7 +6,7 @@ import { AnonymyModal } from '../components/AnonymyModal';
 import { useChatStore } from '../../hooks/useChatStore';
 import { useSelector } from 'react-redux';
 
-const Message = ({ id, text, user }) => {
+const Message = ({ text, user }) => {
   return (
     <Box sx={{ 
       display: 'flex', 
@@ -60,7 +60,7 @@ export const ChatPage = () => {
     if (newMessage.trim() !== '') {
       const newMessageData = {
         text: newMessage,
-        user: { name: user.name, isCurrentUser: true } // Ajusta esto según tu lógica de usuario actual
+        user: { name: user.name, isCurrentUser: true }
       };
       startSavingMessage(newMessageData);
       setNewMessage('');
