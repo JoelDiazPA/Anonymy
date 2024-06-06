@@ -4,10 +4,16 @@ import { blue, red } from '@mui/material/colors';
 export const mainTheme = createTheme({
     palette: {
         primary: {
-            main: '#a6a6a6'
+            main: '#E1DCE0',
+            dark: '#686461',
         },
         secondary: {
-            main: '#2f35e5'
+            main: '#BACBDB',
+            dark: '#425161'
+        },
+        success: {
+            main: '#CEAD6D',
+            dark: ''
         },
         error: {
             main: red.A400

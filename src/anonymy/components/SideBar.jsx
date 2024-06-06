@@ -1,57 +1,128 @@
-import { HomeRounded, Login, TurnedInNot } from '@mui/icons-material'
-import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { ThemeProvider } from "@emotion/react";
+import { mainTheme } from "../../theme/mainTheme";
+import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
+import { ChatOutlined, DarkModeOutlined, HomeRounded, LightModeOutlined, Login, MusicNoteOutlined, NewspaperOutlined, PublicOutlined, TurnedInNot, X } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { NavBar } from './NavBar'; // Importa el componente NavBar
 
 export const SideBar = ({ drawerWidth }) => {
-  return (
-    <Box
-        component='nav'
-        sx={{ width: { xs: 0, sm: drawerWidth }, flexShrink: { sm: 0 } }} // Modificamos aquí para ocultar en 'xs'
-    >
-        <Drawer
-            variant='permanent' // temporary(para ocultarlo)
-            open
-            sx={{
-                display: { xs: 'none', sm: 'block'}, // Modificamos aquí para ocultar en 'xs'
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
-            }}
-        >
-            <Toolbar>
-                <Typography variant='h6' noWrap component='div'>
-                    <img src="../src/assets/Anonymy_large_logo.png" alt='Logo_Anonymy'/>
-                </Typography>
-            </Toolbar>
-            <Divider />
+    // Recuperar el tema guardado en localStorage o por defecto
+    const [theme, setTheme] = useState(() => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            return savedTheme;
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            return 'dark';
+        }
+        return 'light';
+    });
 
-            <List>
-                <ListItem disablePadding
-                    component={Link} to="/">
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <HomeRounded />
-                        </ListItemIcon>
-                        <Grid container className='mr-1'>
-                            <ListItemText primary='Home'/>
-                        </Grid>
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding
-                    component={Link} to="/auth/login">
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <Login />
-                        </ListItemIcon>
-                        <Grid container className='mr-1'>
-                            <ListItemText primary='Iniciar Sesión'/>
-                        </Grid>
-                    </ListItemButton>
-                </ListItem>
-                
-            </List>
+    useEffect(() => {
+        // Aplicar el tema actual
+        applyTheme(theme);
+    }, [theme]);
 
-        </Drawer>
+    const applyTheme = (selectedTheme) => {
+        if (selectedTheme === 'dark') {
+            document.querySelector('html').classList.add('dark');
+        } else {
+            document.querySelector('html').classList.remove('dark');
+        }
+    };
 
-    </Box>
-  )
-}
+    const handleChangeTheme = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        // Guardar el tema seleccionado en localStorage
+        localStorage.setItem("theme", newTheme);
+        setTheme(newTheme);
+    };
+
+    return (
+        <ThemeProvider theme={mainTheme}>
+            <Box
+                component='nav'
+                sx={{ width: { xs: 0, sm: drawerWidth }, flexShrink: { sm: 0 } }}
+            >
+                <Drawer
+                    variant='permanent'
+                    open
+                    sx={{
+                        display: { xs: 'none', sm: 'block' },
+                        '& .MuiDrawer-paper': {
+                            boxSizing: 'border-box',
+                            width: drawerWidth,
+                            backgroundColor: theme === 'dark' ? mainTheme.palette.primary.dark : mainTheme.palette.primary.main,
+                        }
+                    }}
+                >
+                    <Toolbar>
+                        <Typography variant='h6' noWrap component='div'>
+                            <img src="../src/assets/LogoAnonymy_Large.png" alt='Logo_Anonymy'/>
+                        </Typography>
+                    </Toolbar>
+                    <Divider />
+                    <List className="text-black dark:text-white">
+                        <ListItem disablePadding component={Link} to="/">
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <HomeRounded className="text-black dark:text-white"/>
+                                </ListItemIcon>
+                                <Grid container className='mr-1'>
+                                    <ListItemText primary='Inicio'/>
+                                </Grid>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding component={Link} to="/news">
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <NewspaperOutlined className="text-black dark:text-white"/>
+                                </ListItemIcon>
+                                <Grid container className='mr-1'>
+                                    <ListItemText primary='Noticias'/>
+                                </Grid>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding component={Link} to="/general">
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <X className="text-black dark:text-white"/>
+                                </ListItemIcon>
+                                <Grid container className='mr-1'>
+                                    <ListItemText primary='Modo X'/>
+                                </Grid>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding component={Link} to="/chat">
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <ChatOutlined className="text-black dark:text-white"/>
+                                </ListItemIcon>
+                                <Grid container className='mr-1'>
+                                    <ListItemText primary='Chat En Directo'/>
+                                </Grid>
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
+
+                    {/* Box agregado para estar en la parte baja de la página */}
+                    <Box sx={{ position: 'absolute', bottom: 0, width: '100%', marginBottom: 5 }}>
+                        <Typography variant="body2" align="center" color="textSecondary">
+                            <button className="p-2 hover:bg-gray-400 dark:hover:border-gray-700 focus:border-gray-900 border rounded dark:text-white"
+                                onClick={handleChangeTheme}
+                            >
+                                {theme === 'light' ? (
+                                    <DarkModeOutlined />
+                                ) : (
+                                    <LightModeOutlined />
+                                )}
+                            </button> 
+                        </Typography>
+                    </Box>
+                </Drawer>
+            </Box>
+            <NavBar drawerWidth={drawerWidth} theme={theme} /> {/* Pasar el tema como prop a NavBar */}
+        </ThemeProvider>
+    );
+};
