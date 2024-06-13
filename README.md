@@ -3,7 +3,7 @@
 ## Development Pasos:
 
 1. Renonmbrar archivo .env.template por .env
-2. Hacer los cambios drespectivos en las variables de entorno
+2. Hacer los cambios respectivos en las variables de entorno
 
 ```
 

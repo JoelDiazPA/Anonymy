@@ -74,16 +74,6 @@ export const SideBar = ({ drawerWidth }) => {
                                 </Grid>
                             </ListItemButton>
                         </ListItem>
-                        <ListItem disablePadding component={Link} to="/news">
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <NewspaperOutlined className="text-black dark:text-white"/>
-                                </ListItemIcon>
-                                <Grid container className='mr-1'>
-                                    <ListItemText primary='Noticias'/>
-                                </Grid>
-                            </ListItemButton>
-                        </ListItem>
                         <ListItem disablePadding component={Link} to="/general">
                             <ListItemButton>
                                 <ListItemIcon>

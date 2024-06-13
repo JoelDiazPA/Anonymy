@@ -47,14 +47,6 @@ export const AnonymyPage = () => {
             <Button 
               variant="contained" 
               color="primary"
-              component={Link} to="/news"
-            >
-              Noticias
-              <NewspaperOutlined className='ml-2' />
-            </Button>
-            <Button 
-              variant="contained" 
-              color="primary"
               component={Link} to="/general"
             >
               X Mode
